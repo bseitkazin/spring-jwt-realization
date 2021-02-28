@@ -1,7 +1,7 @@
 # spring-jwt-realization
 In this project I realize full mechanism of user login and registration. Also Implement Role Based Action Control.
 
-To implement it, I used Spring Boot, Spring Data JPA and Postgres to store data, Spring Security 5 to implement security issues, JWT to communicate between Server and Client. 
+To implement it, I used `Spring Boot`, `Spring Data JPA` and `Postgres` to store data, `Spring Security 5` to implement security issues, `JWT` to communicate between `Server` and `Client`. 
 
 # Running
 To run the application enter in the command line: `mvn spring-boot:run`
@@ -36,7 +36,8 @@ INSERT INTO roles(name) VALUES('ROLE_ADMIN');
 
 # Make Request to Secure API
 `localhost:8080/api/test/admin`
-`Bearer {jwt}`
+```Bearer {jwt}
+```
 
 # Make Request to Public API
 `localhost:8080/api/test/all`
