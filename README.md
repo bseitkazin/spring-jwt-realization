@@ -36,8 +36,8 @@ INSERT INTO roles(name) VALUES('ROLE_ADMIN');
 
 # Make Request to Secure API
 `localhost:8080/api/test/admin`
-```Bearer {jwt}
-```
+
+```Bearer {jwt}```
 
 # Make Request to Public API
 `localhost:8080/api/test/all`
