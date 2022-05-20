@@ -15,7 +15,10 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
 	@Autowired
 	UserRepository userRepository;
-	
+
+//	To authenticate a User or perform various role-based checks, Spring security needs to load users details somehow.
+//			For this purpose, It consists of an interface called UserDetailsService which has a single method
+//			that loads a user based on username
 	@Override
 	@Transactional
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {

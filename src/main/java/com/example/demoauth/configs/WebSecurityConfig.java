@@ -11,12 +11,12 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import com.example.demoauth.configs.jwt.AuthEntryPointJwt;
 import com.example.demoauth.configs.jwt.AuthTokenFilter;
 import com.example.demoauth.service.UserDetailsServiceImpl;
+import com.example.demoauth.configs.PasswordEncoder;
 
 @EnableWebSecurity
 @Configuration
@@ -25,6 +25,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	
 	@Autowired
 	UserDetailsServiceImpl userDetailsService;
+
+	@Autowired
+	PasswordEncoder passwordEncoder;
 	
 	@Autowired
 	private AuthEntryPointJwt unauthorizedHandler;
@@ -36,7 +39,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	
 	@Override
 	public void configure(AuthenticationManagerBuilder authenticationManagerBuilder) throws Exception {
-		authenticationManagerBuilder.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder());
+		authenticationManagerBuilder.userDetailsService(userDetailsService).
+				passwordEncoder(passwordEncoder.passwordEncoder()); //here we go
 	}
 	
 	@Bean
@@ -45,14 +49,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 		return super.authenticationManagerBean();
 	}
 
-	@Bean
-	public PasswordEncoder passwordEncoder() {
-		return new BCryptPasswordEncoder();
-	}
 
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
-		
+		//Cors-  If the request does not contain any cookies and Spring Security is first, the request
+		// will determine the user is not authenticated (since there are no cookies in the request) and reject it.
 		http.cors().and().csrf().disable()
 			.exceptionHandling().authenticationEntryPoint(unauthorizedHandler).and()
 			.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
